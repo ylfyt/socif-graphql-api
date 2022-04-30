@@ -34,9 +34,6 @@ export default class Product {
 	@Property()
 	storeId!: string;
 
-	@Property()
-	image!: string;
-
 	@Field(() => Store)
 	async store(@Root() product: Product, @Ctx() { em }: DataContext) {
 		return await em.findOne(Store, { id: product.storeId });

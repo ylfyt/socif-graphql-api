@@ -1,7 +1,8 @@
-import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql';
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import Store from '../../entities/store';
 import DataContext from '../../utils/data-context';
 import CreateStoreInput from './create-store-input';
+import UpdateStoreInput from './update-store-input';
 
 @Resolver(Store)
 export class StoreResolver {
@@ -36,7 +37,7 @@ export class StoreResolver {
 	}
 
 	@Mutation(() => Store, { nullable: true })
-	async updateStore(@Arg('id') id: string, @Arg('data') { name, address }: UpdateStoreInput, @Ctx() { em }: MyContext) {
+	async updateStore(@Arg('id') id: string, @Arg('data') { name, address }: UpdateStoreInput, @Ctx() { em }: DataContext) {
 		const store = await em.findOne(Store, { id: id });
 		if (!store) {
 			return null;
