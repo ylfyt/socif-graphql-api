@@ -5,8 +5,8 @@ import { MikroORM } from '@mikro-orm/core';
 import { buildSchema } from 'type-graphql';
 import cors from 'cors';
 
-import { StoreResolver } from './moduls/store/store-resolver';
-import { ProductResolver } from './moduls/product/product-resolver';
+import StoreResolver from './moduls/store/store-resolver';
+import ProductResolver from './moduls/product/product-resolver';
 import dbConfig from './utils/db-config';
 
 const main = async () => {
@@ -41,7 +41,6 @@ const main = async () => {
 
     apolloServer.applyMiddleware({ app, cors: false });
 	
-
 		app.listen(PORT, () => {
 			console.log(`Server is listening on port ${PORT} | http://localhost:${PORT}`);
 		});

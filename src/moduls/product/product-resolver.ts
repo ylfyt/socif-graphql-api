@@ -6,7 +6,7 @@ import CreateProductInput from './create-product-input';
 import UpdateProductInput from './update-product-input';
 
 @Resolver(Product)
-export class ProductResolver {
+export default class ProductResolver {
 	@Query(() => [Product])
 	async products(@Ctx() { em }: DataContext) {
 		return await em.find(Product, {});
@@ -53,4 +53,15 @@ export class ProductResolver {
 		await em.persistAndFlush(product);
 		return product;
 	}
+
+  @Mutation(() => Product)
+  async deleteProduct (@Arg('id') id : string, @Ctx() {em} : DataContext){
+    const product = await em.findOne(Product, {id});
+    if (product == null){
+      return null;
+    }
+
+    await em.remove(product).flush();
+    return product;
+  }
 }

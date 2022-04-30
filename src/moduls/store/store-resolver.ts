@@ -5,7 +5,7 @@ import CreateStoreInput from './create-store-input';
 import UpdateStoreInput from './update-store-input';
 
 @Resolver(Store)
-export class StoreResolver {
+export default class StoreResolver {
 	@Query(() => [Store])
 	async stores(@Ctx() { em }: DataContext) {
 		return await em.find(Store, {});
@@ -52,4 +52,15 @@ export class StoreResolver {
 		await em.persistAndFlush(store);
 		return store;
 	}
+
+  @Mutation(() => Store)
+  async deleteStore (@Arg('id') id : string, @Ctx() {em} : DataContext){
+    const str = await em.findOne(Store, {id});
+    if (str == null){
+      return null;
+    }
+
+    await em.remove(str).flush();
+    return str;
+  }
 }
